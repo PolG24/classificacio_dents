@@ -4,38 +4,11 @@ import colour_processing
 import calibration
 
 
-def calculate_bgr_distances(calibrations, colour):
+def calculate_distances(calibrations, colour, col_scale):
     distances = []
 
     for col in calibrations:
-        distances.append(colour_processing.dist_bgr(col, colour))
-
-    return distances
-
-
-def calculate_hsv_distances(calibrations, colour):
-    distances = []
-
-    for col in calibrations:
-        distances.append(colour_processing.dist_hsv(col, colour))
-
-    return distances
-
-
-def calculate_lab_distances(calibrations, colour):
-    distances = []
-
-    for col in calibrations:
-        distances.append(colour_processing.dist_lab(col, colour))
-
-    return distances
-
-
-def calculate_yuv_distances(calibrations, colour):
-    distances = []
-
-    for col in calibrations:
-        distances.append(colour_processing.dist_yuv(col, colour))
+        distances.append(colour_processing.dist(col, colour, col_scale))
 
     return distances
 
@@ -85,17 +58,5 @@ def result_from_distances(distances):
     return result
 
 
-def classify_bgr_colour(calibrations, colour):
-    return result_from_distances(calculate_bgr_distances(calibrations, colour))
-
-
-def classify_hsv_colour(calibrations, colour):
-    return result_from_distances(calculate_hsv_distances(calibrations, colour))
-
-
-def classify_lab_colour(calibrations, colour):
-    return result_from_distances(calculate_lab_distances(calibrations, colour))
-
-
-def classify_yuv_colour(calibrations, colour):
-    return result_from_distances(calculate_yuv_distances(calibrations, colour))
+def classify_colour(calibrations, colour, col_scale):
+    return result_from_distances(calculate_distances(calibrations, colour, col_scale))

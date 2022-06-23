@@ -1,6 +1,7 @@
 import numpy as np
 import cv2 as cv
 import colour_processing
+from colour_processing import C
 
 # cv.imshow('i', img_bgr)
 # cv.waitKey(0)
@@ -36,17 +37,17 @@ def test_mean_colour():
 
 def test_dist_bgr():
     if (colour_processing.dist_bgr([1, 1, 1], [1, 1, 1]) == 0 and
-            abs(colour_processing.dist_bgr([42, 245, 255], [123, 44, 98]) - 267.6023) < 0.1 and
-            abs(colour_processing.dist_bgr([98, 99, 100], [100, 99, 98]) - 2.8284) < 0.1 and
-            abs(colour_processing.dist_bgr([234, 23, 4], [222, 1, 0]) - 25.3772) < 0.1):
+            abs(colour_processing.dist([42, 245, 255], [123, 44, 98], C.BGR) - 267.6023) < 0.1 and
+            abs(colour_processing.dist([98, 99, 100], [100, 99, 98], C.BGR) - 2.8284) < 0.1 and
+            abs(colour_processing.dist([234, 23, 4], [222, 1, 0], C.BGR) - 25.3772) < 0.1):
         print('dist_bgr working correctly')
     else:
         print('dist_bgr not working correctly')
 
 
 def test_dist_hsv():
-    if (abs(colour_processing.dist_hsv([1, 2, 2], [150, 49, 255]) - 259.1891) < 0.1 and
-            abs(colour_processing.dist_hsv([19, 123, 43], [45, 243, 49]) - 122.9309) < 0.1):
+    if (abs(colour_processing.dist([1, 2, 2], [150, 49, 255], C.HSV) - 259.1891) < 0.1 and
+            abs(colour_processing.dist([19, 123, 43], [45, 243, 49], C.HSV) - 122.9309) < 0.1):
         print('dist_hsv working correctly')
     else:
         print('dist_hsv not working correctly')
@@ -54,14 +55,14 @@ def test_dist_hsv():
 
 # De moment confio que el codi que he trobat per aquest algorisme funcioni bé
 def test_dist_lab():
-    print(colour_processing.delta_E_CIE2000([255, 255, 255], [31, 145, 222]))
+    print(colour_processing.dist([255, 255, 255], [31, 145, 222], C.LAB))
 
 
 def test_dist_yuv():
-    if (colour_processing.dist_bgr([1, 1, 1], [1, 1, 1]) == 0 and
-            abs(colour_processing.dist_bgr([42, 245, 255], [123, 44, 98]) - 267.6023) < 0.1 and
-            abs(colour_processing.dist_bgr([98, 99, 100], [100, 99, 98]) - 2.8284) < 0.1 and
-            abs(colour_processing.dist_bgr([234, 23, 4], [222, 1, 0]) - 25.3772) < 0.1):
+    if (colour_processing.dist([1, 1, 1], [1, 1, 1], C.YUV) == 0 and
+            abs(colour_processing.dist([42, 245, 255], [123, 44, 98], C.YUV) - 267.6023) < 0.1 and
+            abs(colour_processing.dist([98, 99, 100], [100, 99, 98], C.YUV) - 2.8284) < 0.1 and
+            abs(colour_processing.dist([234, 23, 4], [222, 1, 0], C.YUV) - 25.3772) < 0.1):
         print('dist_yuv working correctly')
     else:
         print('dist_yuv not working correctly')
