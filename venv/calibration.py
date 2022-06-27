@@ -48,7 +48,7 @@ def calculate_calibrations():
 
 # Obtain the calibrations from the files
 def get_calibrations():
-    # Create files and write these means in them
+    # Open files to read
     f_bgr = open("calibration_files/bgr_calibrations.txt", "r")
     f_hsv = open("calibration_files/hsv_calibrations.txt", "r")
     f_lab = open("calibration_files/lab_calibrations.txt", "r")

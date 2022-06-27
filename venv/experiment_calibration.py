@@ -1,9 +1,9 @@
-import os
-
 import numpy as np
-import cv2 as cv
-import colour_processing
+import os
 from os import listdir
+import cv2 as cv
+
+import colour_processing
 
 
 def calculate_calibrations(dir):

@@ -1,6 +1,9 @@
 import numpy as np
 import cv2 as cv
+import csv
+import os
 from os import listdir
+
 import experiment_calibration
 import colour_processing
 import colour_distance
@@ -18,36 +21,57 @@ def run_experiment(dir):
     image_directories.sort()
     image_directories = list(map(str, image_directories))
 
-    for i, d in enumerate(image_directories):
-        # Iterate over the images in the directory
-        image_names = listdir(dir + "/sample_images/" + d)
-        print("\n" + colour_distance.vita_from_index(i))
+    # Create result files
+    if not os.path.exists(dir + "/results"):
+        os.mkdir(dir + "/results")
+    bgr_f = open(dir + "/results/bgr_results.csv", "w")
+    hsv_f = open(dir + "/results/hsv_results.csv", "w")
+    lab_f = open(dir + "/results/lab_results.csv", "w")
+    yuv_f = open(dir + "/results/yuv_results.csv", "w")
 
-        bgr_clas = []
-        hsv_clas = []
-        lab_clas = []
-        yuv_clas = []
+    # Create csv writers
+    bgr_w = csv.writer(bgr_f)
+    hsv_w = csv.writer(hsv_f)
+    lab_w = csv.writer(lab_f)
+    yuv_w = csv.writer(yuv_f)
+
+    for i, image_dir in enumerate(image_directories):
+        # Iterate over the images in the directory
+        image_names = listdir(dir + "/sample_images/" + image_dir)
 
         for image_name in image_names:
-            image = cv.imread(dir + "/sample_images/" + d + "/" + image_name)
+            image = cv.imread(dir + "/sample_images/" + image_dir + "/" + image_name)
             means = colour_processing.mean_colour(image)
-            bgr_clas.append(colour_distance.classify_colour(calibrations[0], means[0], C.BGR))
-            hsv_clas.append(colour_distance.classify_colour(calibrations[1], means[1], C.HSV))
-            lab_clas.append(colour_distance.classify_colour(calibrations[2], means[2], C.LAB))
-            yuv_clas.append(colour_distance.classify_colour(calibrations[3], means[3], C.YUV))
 
-        print("BGR:")
-        for clas in bgr_clas:
-            print(clas)
+            row = []
+            for tup in colour_distance.classify_colour(calibrations[0], means[0], C.BGR):
+                row.append(tup[0])
+                row.append(tup[1])
 
-        print("HSV:")
-        for clas in hsv_clas:
-            print(clas)
+            bgr_w.writerow(row)
 
-        print("LAB:")
-        for clas in lab_clas:
-            print(clas)
+            row = []
+            for tup in colour_distance.classify_colour(calibrations[1], means[1], C.HSV):
+                row.append(tup[0])
+                row.append(tup[1])
 
-        print("YUV:")
-        for clas in yuv_clas:
-            print(clas)
+            hsv_w.writerow(row)
+
+            row = []
+            for tup in colour_distance.classify_colour(calibrations[2], means[2], C.LAB):
+                row.append(tup[0])
+                row.append(tup[1])
+
+            lab_w.writerow(row)
+
+            row = []
+            for tup in colour_distance.classify_colour(calibrations[3], means[3], C.YUV):
+                row.append(tup[0])
+                row.append(tup[1])
+
+            yuv_w.writerow(row)
+
+    bgr_f.close()
+    hsv_f.close()
+    lab_f.close()
+    yuv_f.close()

@@ -51,7 +51,11 @@ def vita_from_index(i):
 def result_from_distances(distances):
     result = []
     for i in range(len(distances)):
-        result.append((vita_from_index(i), distances[i]))
+        #Show vita labels
+        # result.append((vita_from_index(i), distances[i]))
+
+        #Show index
+        result.append((i, distances[i]))
 
     result.sort(key=lambda x: x[1])
 

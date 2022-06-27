@@ -11,7 +11,7 @@ import colour_distance
 import test_calibration_classification
 import experiments
 
-# experiments.run_experiment("experiments/e1")
+experiments.run_experiment("experiments/e1")
 
 
 # Various tests
@@ -47,22 +47,24 @@ import experiments
 #     print()
 
 # Csc write and read testing
-# open the file in the write mode
-f = open('path', 'w')
-
-# create the csv writer
-writer = csv.writer(f)
-
-# write a row to the csv file
-row = ['A1', 'A2', 'A3']
-writer.writerow(row)
-writer.writerow(row)
-
-# close the file
-f.close()
-f = open('path', newline='')
-spamreader = csv.reader(f, delimiter=' ', quotechar='|')
-for row in spamreader:
-    # print(', '.join(row))
-    print(row)
-f.close()
+# # open the file in the write mode
+# f = open('path', 'w')
+#
+# # create the csv writer
+# writer = csv.writer(f)
+#
+# # write a row to the csv file
+# row = [1, 'A2', 'A3']
+# writer.writerow(row)
+# writer.writerow(row)
+#
+# # close the file
+# f.close()
+# f = open('path', newline='')
+# reader = csv.reader(f, delimiter=',')
+# print(next(reader))
+# print(next(reader))
+# # for row in reader:
+# #     # print(', '.join(row))
+# #     print(row)
+# f.close()
