@@ -75,3 +75,38 @@ def run_experiment(dir):
     hsv_f.close()
     lab_f.close()
     yuv_f.close()
+
+
+EXP_IMAGES = 3
+CAL_IMAGES = 16
+
+
+def calculate_stats(dir):
+    # # Open the result files
+    bgr_res_f = open(dir + "/results/bgr_results.csv", newline='')
+
+    # Create the csv readers
+    bgr_r = csv.reader(bgr_res_f, delimiter=',')
+
+    for tooth_i in range(CAL_IMAGES):
+        correct_guesses = 0
+        for i in range(EXP_IMAGES):
+            row = next(bgr_r)
+            if int(row[0]) == tooth_i:
+                correct_guesses += 1
+
+        print('Tooth: ' + str(tooth_i) + ', Correct guesses: ' + str(correct_guesses))
+
+
+
+    # Discard the distances
+    # row = row[::2]
+    # row = list(map(int, row))
+    # print(row)
+    bgr_res_f.close()
+
+
+
+
+
+

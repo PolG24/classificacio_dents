@@ -11,7 +11,7 @@ import colour_distance
 import test_calibration_classification
 import experiments
 
-experiments.run_experiment("experiments/e1")
+experiments.calculate_stats('experiments/e1')
 
 
 # Various tests
