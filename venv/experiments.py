@@ -10,7 +10,7 @@ import colour_distance
 from colour_processing import C
 
 
-def run_experiment(dir):
+def calculate_results(dir):
     # Calculate the calibrations and save them in files
     experiment_calibration.calculate_calibrations(dir)
     calibrations = experiment_calibration.get_calibrations(dir)
@@ -82,28 +82,68 @@ CAL_IMAGES = 16
 
 
 def calculate_stats(dir):
-    # # Open the result files
+    # Open the result files
     bgr_res_f = open(dir + "/results/bgr_results.csv", newline='')
+    hsv_res_f = open(dir + "/results/hsv_results.csv", newline='')
+    lab_res_f = open(dir + "/results/lab_results.csv", newline='')
+    yuv_res_f = open(dir + "/results/yuv_results.csv", newline='')
 
     # Create the csv readers
     bgr_r = csv.reader(bgr_res_f, delimiter=',')
+    hsv_r = csv.reader(hsv_res_f, delimiter=',')
+    lab_r = csv.reader(lab_res_f, delimiter=',')
+    yuv_r = csv.reader(yuv_res_f, delimiter=',')
 
+    # Count the correct guesses
+    correct_bgr_guesses = 0
+    correct_hsv_guesses = 0
+    correct_lab_guesses = 0
+    correct_yuv_guesses = 0
     for tooth_i in range(CAL_IMAGES):
-        correct_guesses = 0
         for i in range(EXP_IMAGES):
-            row = next(bgr_r)
-            if int(row[0]) == tooth_i:
-                correct_guesses += 1
+            bgr_row = next(bgr_r)
+            hsv_row = next(hsv_r)
+            lab_row = next(lab_r)
+            yuv_row = next(yuv_r)
 
-        print('Tooth: ' + str(tooth_i) + ', Correct guesses: ' + str(correct_guesses))
+            if int(bgr_row[0]) == tooth_i:
+                correct_bgr_guesses += 1
 
+            if int(hsv_row[0]) == tooth_i:
+                correct_hsv_guesses += 1
 
+            if int(lab_row[0]) == tooth_i:
+                correct_lab_guesses += 1
 
-    # Discard the distances
-    # row = row[::2]
-    # row = list(map(int, row))
-    # print(row)
+            if int(yuv_row[0]) == tooth_i:
+                correct_yuv_guesses += 1
+
+    bgr_ratio = correct_bgr_guesses / (EXP_IMAGES * CAL_IMAGES)
+    hsv_ratio = correct_hsv_guesses / (EXP_IMAGES * CAL_IMAGES)
+    lab_ratio = correct_lab_guesses / (EXP_IMAGES * CAL_IMAGES)
+    yuv_ratio = correct_yuv_guesses / (EXP_IMAGES * CAL_IMAGES)
+
+    # Create stat file to save the results
+    if not os.path.exists(dir + "/statistics"):
+        os.mkdir(dir + "/statistics")
+    f = open(dir + "/statistics/ratios.csv", "w")
+
+    # Create csv writer
+    w = csv.writer(f)
+
+    w.writerow([bgr_ratio, hsv_ratio, lab_ratio, yuv_ratio])
+
     bgr_res_f.close()
+    hsv_res_f.close()
+    lab_res_f.close()
+    yuv_res_f.close()
+
+    f.close()
+
+
+def run_experiment(dir):
+    calculate_results(dir)
+    calculate_stats(dir)
 
 
 

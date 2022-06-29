@@ -10,8 +10,15 @@ import calibration
 import colour_distance
 import test_calibration_classification
 import experiments
+import gadget_test
 
-experiments.calculate_stats('experiments/e1')
+gadget_test.calc_dist(gadget_test.calc_means('test3A1images'))
+
+# experiments.run_experiment('experiments/e7')
+
+# Calculate many experiments' stats
+# for i in range(1, 7):
+#     experiments.calculate_stats('experiments/e' + str(i))
 
 
 # Various tests
