@@ -12,9 +12,17 @@ import test_calibration_classification
 import experiments
 import gadget_test
 
-gadget_test.calc_dist(gadget_test.calc_means('test3A1images'))
 
-# experiments.run_experiment('experiments/e7')
+exp = 5
+
+# experiments.org_exp_im('experiments/e' + str(exp) + '/sample_images')
+experiments.run_experiment('experiments/e' + str(exp), exp)
+experiments.join_ratios('experiments', exp)
+
+# gadget_test.run_gadget_tests('gadget_test')
+
+# experiments.run_experiment('experiments/e5')
+# experiments.run_experiment('experiments/e6')
 
 # Calculate many experiments' stats
 # for i in range(1, 7):

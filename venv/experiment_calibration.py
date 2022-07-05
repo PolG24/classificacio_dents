@@ -6,7 +6,7 @@ import cv2 as cv
 import colour_processing
 
 
-def calculate_calibrations(dir):
+def calculate_calibrations(dir, exp):
     image_list = listdir(dir + "/calibration_images")
     image_list.sort()
 
@@ -17,7 +17,7 @@ def calculate_calibrations(dir):
 
     for image in image_list:
         image = cv.imread(dir + '/calibration_images/' + image)
-        means = colour_processing.mean_colour(image)
+        means = colour_processing.mean_colour(image, exp)
 
         bgr_cal.append(means[0])
         hsv_cal.append(means[1])

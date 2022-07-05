@@ -10,9 +10,9 @@ import colour_distance
 from colour_processing import C
 
 
-def calculate_results(dir):
+def calculate_results(dir, exp):
     # Calculate the calibrations and save them in files
-    experiment_calibration.calculate_calibrations(dir)
+    experiment_calibration.calculate_calibrations(dir, exp)
     calibrations = experiment_calibration.get_calibrations(dir)
 
     # Iterate over the directories in sample images in order
@@ -41,7 +41,7 @@ def calculate_results(dir):
 
         for image_name in image_names:
             image = cv.imread(dir + "/sample_images/" + image_dir + "/" + image_name)
-            means = colour_processing.mean_colour(image)
+            means = colour_processing.mean_colour(image, exp)
 
             row = []
             for tup in colour_distance.classify_colour(calibrations[0], means[0], C.BGR):
@@ -141,9 +141,46 @@ def calculate_stats(dir):
     f.close()
 
 
-def run_experiment(dir):
-    calculate_results(dir)
+def join_ratios(dir, i):
+    f = open(dir + '/all_stats.csv', 'w')
+    w = csv.writer(f)
+
+    for j in range(1, i + 1):
+        exp_folder = dir + '/e' + str(j)
+
+        # Open the ratio file
+        ratios_f = open(exp_folder + "/statistics/ratios.csv", newline='')
+
+        # Create the csv reader
+        ratios_r = csv.reader(ratios_f, delimiter=',')
+
+        w.writerow(next(ratios_r))
+
+        ratios_f.close()
+
+    f.close()
+
+
+def run_experiment(dir, exp):
+    calculate_results(dir, exp)
     calculate_stats(dir)
+
+
+def org_exp_im(dir):
+    # Iterate over the images in order
+    image_names = listdir(dir)
+    image_names.sort()
+
+    for tooth_i in range(CAL_IMAGES):
+        # Create image directory
+        if not os.path.exists(dir + "/" + str(tooth_i)):
+            os.mkdir(dir + "/" + str(tooth_i))
+
+        for image_i in range(EXP_IMAGES):
+            os.rename(dir + "/" + image_names[tooth_i * EXP_IMAGES + image_i], dir + "/" + str(tooth_i) + "/" +
+                      image_names[tooth_i * EXP_IMAGES + image_i])
+
+
 
 
 
