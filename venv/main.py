@@ -13,13 +13,13 @@ import experiments
 import gadget_test
 
 
-exp = 5
-
+# exp = 26
+#
 # experiments.org_exp_im('experiments/e' + str(exp) + '/sample_images')
-experiments.run_experiment('experiments/e' + str(exp), exp)
-experiments.join_ratios('experiments', exp)
+# experiments.run_experiment('experiments/e' + str(exp), exp)
+# experiments.join_ratios('experiments', exp)
 
-# gadget_test.run_gadget_tests('gadget_test')
+gadget_test.run_gadget_tests('ulcer_tests')
 
 # experiments.run_experiment('experiments/e5')
 # experiments.run_experiment('experiments/e6')
